@@ -348,3 +348,18 @@ lrwxrwxrwx    1 root     root            14 Aug  1 21:59 tls.key -> ..data/tls.k
 -----BEGIN RSA PRIVATE KEY----- ... -----END RSA PRIVATE KEY-----
 /app #
 ```
+
+9. Удаление ресурсов
+
+```
+$ helm -n secret ls
+NAME  	NAMESPACE	REVISION	UPDATED                             	STATUS  	CHART       	APP VERSION
+secret	secret   	1       	2022-08-02 00:59:27.712954 +0300 MSK	deployed	secret-1.0.0
+
+$ helm -n secret delete secret
+release "secret" uninstalled
+
+$ kubectl delete ns secret --force
+warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+namespace "secret" force deleted
+```

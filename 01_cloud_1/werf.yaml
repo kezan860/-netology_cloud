@@ -1,7 +1,7 @@
-project: auth
+project: secret
 configVersion: 1
 deploy:
-  namespace: "[[ env ]]"
+  namespace: dev
 ---
 image: nginx
 from: nginx:1.23.0

@@ -2,9 +2,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: {{ .Chart.Name }}
   labels:
-    app: nginx
+    app: {{ .Chart.Name }}
 spec:
   replicas: 1
   selector:

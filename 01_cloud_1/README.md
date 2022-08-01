@@ -206,7 +206,13 @@ secret/domain-cert created
 
 ### Ответ:
 
-1. Создал [файл](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/.helm/app.yaml) деплоя (nginx)
+1. Создал [файл приложения](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/.helm/app.yaml) деплоя (nginx)
+1) Создал [файл проекта](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/werf.yaml)
+2) Засекретил файлы сертификата и ключа
+```
+✗ werf helm secret file encrypt .helm/secret/cert.crt -o .helm/secret/cert.crt
+✗ werf helm secret file encrypt .helm/secret/cert.key -o .helm/secret/cert.key
+```
 2. Запустил деплой
 ```
 ✗ kubectl apply -f .helm/app.yaml

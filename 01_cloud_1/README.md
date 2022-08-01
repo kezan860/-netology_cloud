@@ -218,7 +218,7 @@ secret/domain-cert created
 
 2. Создал `secret` для доступа к образам `Docker Hub`
 ```
-$ kubectl create ns dev
+$ kubectl create ns secret
 
 $ kubectl -n secret create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \

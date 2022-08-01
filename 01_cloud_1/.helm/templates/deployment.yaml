@@ -1,12 +1,9 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}
-  labels:
-    app: {{ .Chart.Name }}
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
@@ -20,14 +17,15 @@ spec:
       volumes:
       - name: secret
         secret:
-          secretName: domain-cert
+          secretName: {{ .Chart.Name }}-tls
           defaultMode: 0400
       containers:
-      - name: nginx
+      - name: app
         image: {{ .Values.werf.image.app }}
         imagePullPolicy: IfNotPresent
+        command: ["/app/start.sh"]
         ports:
-        - containerPort: 80
+        - containerPort: 8000
         volumeMounts:
         - name: secret
           mountPath: "/etc/secret"
@@ -36,12 +34,12 @@ spec:
           - name: TLS_CRT
             valueFrom:
               secretKeyRef:
-                name: domain-cert
+                name: {{ .Chart.Name }}-tls
                 key: tls.crt
                 optional: false
           - name: TLS_KEY
             valueFrom:
               secretKeyRef:
-                name: domain-cert
+                name: {{ .Chart.Name }}-tls
                 key: tls.key
                 optional: false

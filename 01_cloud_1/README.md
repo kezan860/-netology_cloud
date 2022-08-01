@@ -206,6 +206,21 @@ secret/domain-cert created
 
 ### Ответ:
 
+1. Для работы буду использовать инструмент werf
+
+2. Создал [репозиторий](https://github.com/kezan860/netology_cloud/tree/master/01_cloud_1)
+
+3. Создал образ на основе [Dockerfile]()
+
+4. Интегрировал werf и Dockerfile [werf.yaml]()
+
+5. Собрал образ
+```
+
+```
+
+
+
 1. Создал [файл приложения](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/.helm/app.yaml) деплоя (nginx)
 1) Создал [файл проекта](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/werf.yaml)
 2) Засекретил файлы сертификата и ключа
@@ -215,8 +230,43 @@ secret/domain-cert created
 ```
 2. Запустил деплой
 ```
-✗ kubectl apply -f .helm/app.yaml
-deployment.apps/nginx-deployment created
+✗ werf converge --dev --repo kezan86/secret
+Version: v1.2.122+fix2
+Using werf config render file: /private/var/folders/dt/h5ttnzf54pnf7tn07wwt9bym0000gn/T/werf-config-render-2871384593
+
+┌ Getting client id for the http synchronization server
+│ Using clientID "0f967aef-435e-4e77-bcf7-736021bbdd89" for http synchronization server at address https://synchronization.werf.io/0f967aef-435e-4e77-bcf7-736021bbdd89
+└ Getting client id for the http synchronization server (2.76 seconds)
+
+┌ ⛵ image secret
+│ Use cache image for secret/from
+│      name: kezan86/secret:64bfa901e61699564fa7f287d1c540cb37f963fa6f645689500c088d-1659371565955
+│        id: f50d09d7c21f
+│   created: 2022-08-01 19:32:45 +0300 MSK
+│      size: 52.8 MiB
+└ ⛵ image secret (0.00 seconds)
+
+┌ Waiting for resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                         REPLICAS             AVAILABLE              UP-TO-DATE
+│ │ secret                                                                                                             1/1                  1                      1
+│ │ │   POD                                         READY           RESTARTS              STATUS
+│ │ └── 5b689cb9f8-7ns2c                            1/1             0                     Running
+│ │ RESOURCE                                                                             NAMESPACE                  CONDITION: CURRENT (DESIRED)
+│ │ Secret/domain-cert                                                                   dev                        -
+│ └ Status progress
+└ Waiting for resources to become ready (3.02 seconds)
+
+Release "secret" has been upgraded. Happy Helming!
+NAME: secret
+LAST DEPLOYED: Mon Aug  1 22:56:57 2022
+LAST PHASE: rollout
+LAST STAGE: 0
+NAMESPACE: dev
+STATUS: deployed
+REVISION: 15
+TEST SUITE: None
+Running time 8.53 seconds
 ```
 3. Посмотрел созданный под
 ```

@@ -222,8 +222,8 @@ $ kubectl create ns secret
 
 $ kubectl -n secret create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
-  --docker-username='kezan86' \
-  --docker-password='ZenMax86!@'
+  --docker-username='<username>' \
+  --docker-password='<password>'
 secret/registrysecret created
 ```
 

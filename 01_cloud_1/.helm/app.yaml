@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      volumes:
+      - name: secret
+        secret:
+          secretName: domain-cert
+          defaultMode: 0400
+      containers:
+      - name: nginx
+        image: {{ .Values.werf.image }}
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: secret
+          mountPath: "/etc/secret"
+          readOnly: true
+        env:
+          - name: TLS_CRT
+            valueFrom:
+              secretKeyRef:
+                name: domain-cert
+                key: tls.crt
+                optional: false
+          - name: TLS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: domain-cert
+                key: tls.key
+                optional: false

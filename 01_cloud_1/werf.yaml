@@ -1,0 +1,7 @@
+project: auth
+configVersion: 1
+deploy:
+  namespace: "[[ env ]]"
+---
+image: nginx
+from: nginx:1.23.0

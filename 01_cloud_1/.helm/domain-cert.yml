@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  tls.crt: {{ werf_secret_file "cert.crt" }}
+  tls.key: {{ werf_secret_file "cert.key" }}
+kind: Secret
+metadata:
+  creationTimestamp: "2022-08-01T15:43:19Z"
+  name: domain-cert
+  namespace: default
+  resourceVersion: "118203"
+  uid: d4d44bfe-fa72-4d61-b104-9cd208ce1ff2
+type: kubernetes.io/tls

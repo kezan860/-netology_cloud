@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: domain-cert
+type: kubernetes.io/tls
+data:
+  tls.crt: {{ werf_secret_file "cert.crt" | b64enc }}
+  tls.key: {{ werf_secret_file "cert.key" | b64enc }}

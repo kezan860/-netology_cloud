@@ -15,6 +15,8 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      imagePullSecrets:
+      - name: registrysecret
       volumes:
       - name: secret
         secret:
@@ -22,7 +24,7 @@ spec:
           defaultMode: 0400
       containers:
       - name: nginx
-        image: {{ .Values.werf.image }}
+        image: {{ .Values.werf.image.app }}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80

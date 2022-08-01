@@ -1,5 +1,0 @@
-apiVersion: v1
-kind: Secret
-data:
-  tls.crt: {{ werf_secret_file "cert.crt" }}
-  tls.key: {{ werf_secret_file "cert.key" }}

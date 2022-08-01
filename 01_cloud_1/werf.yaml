@@ -1,7 +1,5 @@
-project: secret
+project: cloud
 configVersion: 1
-deploy:
-  namespace: dev
 ---
-image: nginx
-from: nginx:1.23.0
+image: app
+dockerfile: Dockerfile

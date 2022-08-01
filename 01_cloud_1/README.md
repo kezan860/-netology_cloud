@@ -210,6 +210,12 @@ secret/domain-cert created
 
 1. Создал [репозиторий](https://github.com/kezan860/netology_cloud/tree/master/01_cloud_1)
 
+1) Файл [deployment.yaml](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/.helm/templates/deployment.yaml)
+2) Файл [ingress.yaml](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/.helm/templates/ingress.yaml)
+3) Файл [secret.yaml](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/.helm/templates/secret.yml)
+4) Файл [service.yaml](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/.helm/templates/service.yaml)
+5) Файл проекта [werf.yaml](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/werf.yaml)
+
 2. Создал `secret` для доступа к образам `Docker Hub`
 ```
 $ kubectl create ns dev
@@ -221,7 +227,7 @@ $ kubectl -n secret create secret docker-registry registrysecret \
 secret/registrysecret created
 ```
 
-3. Собрал образ из [Dockerfile]()
+3. Собрал образ из [Dockerfile](https://github.com/kezan860/netology_cloud/blob/master/01_cloud_1/Dockerfile)
 
 ```
 werf build

@@ -210,96 +210,135 @@ secret/domain-cert created
 
 1. Создал [репозиторий](https://github.com/kezan860/netology_cloud/tree/master/01_cloud_1)
 
+2. Создал `secret` для доступа к образам `Docker Hub`
+```
+$ kubectl create ns dev
 
-2. Запустил деплой
+$ kubectl -n secret create secret docker-registry registrysecret \
+  --docker-server='https://index.docker.io/v1/' \
+  --docker-username='kezan86' \
+  --docker-password='ZenMax86!@'
+secret/registrysecret created
+```
+
+3. Собрал образ из [Dockerfile]()
+
+```
+werf build
+Version: v1.2.122+fix2
+Using werf config render file: /private/var/folders/dt/h5ttnzf54pnf7tn07wwt9bym0000gn/T/werf-config-render-1045382035
+
+┌ ⛵ image app
+│ Use cache image for app/dockerfile
+│      name: secret:e5c6ebcd2718ccfe74d01069a0d758e03d5a2554155ccdc01be0daff-1659385361222
+│        id: c477c448deee
+│   created: 2022-08-01 23:22:41.2028235 +0300 MSK
+│      size: 5.7 MiB
+└ ⛵ image app (0.02 seconds)
+
+Running time 0.97 seconds
+```
+
+4. Запустил деплой
 
 ```
 ✗ werf converge --repo kezan86/secret
 Version: v1.2.122+fix2
-Using werf config render file: /private/var/folders/dt/h5ttnzf54pnf7tn07wwt9bym0000gn/T/werf-config-render-2357650771
+Using werf config render file: /private/var/folders/dt/h5ttnzf54pnf7tn07wwt9bym0000gn/T/werf-config-render-3876218598
 
 ┌ Getting client id for the http synchronization server
-│ Using clientID "fa334969-add7-48b7-8360-c35177bdb090" for http synchronization server at address https://synchronization.werf.io/fa334969-add7-48b7-8360-c35177bdb090
-└ Getting client id for the http synchronization server (2.52 seconds)
+│ Using clientID "5404e5c0-101f-40d9-88f3-a1d0d1901354" for http synchronization server at address https://synchronization.werf.io/5404e5c0-101f-40d9-88f3-a1d0d1901354
+└ Getting client id for the http synchronization server (2.58 seconds)
 
+WARNING: There is no way to ignore the Dockerfile due to docker limitation when building an image for a compressed context that reads from STDIN.
+WARNING: To hide this message, remove the Dockerfile ignore rule from the ".dockerignore" or add an exception rule "!Dockerfile".
 ┌ ⛵ image app
-│ Use cache image for app/from
-│      name: kezan86/secret:64bfa901e61699564fa7f287d1c540cb37f963fa6f645689500c088d-1659371565955
-│        id: f50d09d7c21f
-│   created: 2022-08-01 19:32:45 +0300 MSK
-│      size: 52.8 MiB
+│ Use cache image for app/dockerfile
+│      name: kezan86/secret:e5c6ebcd2718ccfe74d01069a0d758e03d5a2554155ccdc01be0daff-1659385361222
+│        id: c477c448deee
+│   created: 2022-08-01 23:22:41 +0300 MSK
+│      size: 2.9 MiB
 └ ⛵ image app (0.01 seconds)
+
+Release "secret" does not exist. Installing it now.
 
 ┌ Waiting for resources to become ready
 │ ┌ Status progress
 │ │ DEPLOYMENT                                                                                                         REPLICAS             AVAILABLE              UP-TO-DATE
-│ │ secret                                                                                                             1/1                  1                      1
+│ │ secret                                                                                                             4/4                  4                      4
 │ │ │   POD                                         READY           RESTARTS              STATUS
-│ │ └── 76b7bb996d-5b97b                            1/1             0                     Running
+│ │ ├── 6f64466cd8-nl6dv                            1/1             0                     Running
+│ │ ├── 6f64466cd8-qphn4                            1/1             0                     Running
+│ │ ├── 6f64466cd8-v5kt2                            1/1             0                     Running
+│ │ ├── 6f64466cd8-w6cb5                            1/1             0                     Running
 │ │ RESOURCE                                                                             NAMESPACE                  CONDITION: CURRENT (DESIRED)
-│ │ Secret/domain-cert                                                                   dev                        -
+│ │ Secret/secret-tls                                                                    secret                     -
+│ │ Service/secret                                                                       secret                     -
+│ │ Ingress/secret                                                                       secret                     -
 │ └ Status progress
-└ Waiting for resources to become ready (3.03 seconds)
+└ Waiting for resources to become ready (3.02 seconds)
 
-Release "secret" has been upgraded. Happy Helming!
 NAME: secret
-LAST DEPLOYED: Mon Aug  1 23:58:32 2022
+LAST DEPLOYED: Tue Aug  2 00:59:27 2022
 LAST PHASE: rollout
 LAST STAGE: 0
-NAMESPACE: dev
+NAMESPACE: secret
 STATUS: deployed
-REVISION: 9
+REVISION: 1
 TEST SUITE: None
-Running time 8.39 seconds
+Running time 7.35 seconds
 ```
 
-3. Посмотрел созданный под
+5. Посмотрел созданный под
 
 ```
-✗ kubectl -n dev get po
+✗ kubectl -n secret get po
 NAME                      READY   STATUS    RESTARTS   AGE
-secret-76b7bb996d-5b97b   1/1     Running   0          46s
+secret-6f64466cd8-nl6dv   1/1     Running   0          63s
+secret-6f64466cd8-qphn4   1/1     Running   0          63s
+secret-6f64466cd8-v5kt2   1/1     Running   0          63s
+secret-6f64466cd8-w6cb5   1/1     Running   0          63s
 ```
 
-4. Подключился к нему
+6. Подключился к нему
 
 ```
-✗ kubectl -n dev exec -ti secret-76b7bb996d-5b97b bash
+✗ kubectl -n secret exec -ti secret-6f64466cd8-nl6dv sh
 kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
-root@secret-76b7bb996d-5b97b:/#
+/app #
 
 ```
 
-5. Вывел секрты которые были примонтированы
+7. Вывел секрты которые были примонтированы
 
 ```
-root@secret-76b7bb996d-5b97b:/# ls -l /etc/secret/
+/app # ls -l /etc/secret/
 total 0
-lrwxrwxrwx 1 root root 14 Aug  1 20:58 tls.crt -> ..data/tls.crt
-lrwxrwxrwx 1 root root 14 Aug  1 20:58 tls.key -> ..data/tls.key
-root@secret-76b7bb996d-5b97b:/#
+lrwxrwxrwx    1 root     root            14 Aug  1 21:59 tls.crt -> ..data/tls.crt
+lrwxrwxrwx    1 root     root            14 Aug  1 21:59 tls.key -> ..data/tls.key
+/app #
 
-root@secret-76b7bb996d-5b97b:/# cat /etc/secret/tls.crt
+/app # cat /etc/secret/tls.crt
 -----BEGIN CERTIFICATE-----
 ...
 -----END CERTIFICATE-----
-root@secret-76b7bb996d-5b97b:/#
+/app #
 
-root@secret-76b7bb996d-5b97b:/# cat /etc/secret/tls.key
+/app # cat /etc/secret/tls.key
 -----BEGIN RSA PRIVATE KEY-----
 ...
 -----END RSA PRIVATE KEY-----
-root@secret-76b7bb996d-5b97b:/#
+/app #
 ```
 
-6. Вывел секрты которые были переменными окружения
+8. Вывел секрты которые были переменными окружения
 
 ```
-root@secret-76b7bb996d-5b97b:/# echo ${TLS_CRT}
+/app # echo ${TLS_CRT}
 -----BEGIN CERTIFICATE----- ... -----END CERTIFICATE-----
-root@secret-76b7bb996d-5b97b:/#
+/app #
 
-root@secret-76b7bb996d-5b97b:/# echo ${TLS_KEY}
+/app # echo ${TLS_KEY}
 -----BEGIN RSA PRIVATE KEY----- ... -----END RSA PRIVATE KEY-----
-root@secret-76b7bb996d-5b97b:/#
+/app #
 ```
